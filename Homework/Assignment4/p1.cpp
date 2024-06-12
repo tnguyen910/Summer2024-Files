@@ -17,8 +17,8 @@ int main() {
         std::cout << "Teenager" << std::endl;
         return 0;
     }
-    if (age > 0) {
-        std::cout << "Child";
+    if (age >= 0) {
+        std::cout << "Child" << std::endl;
         return 0;
     }
     std::cout << "Not a valid age!" << std::endl;
