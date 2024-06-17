@@ -163,48 +163,36 @@ int problem13() {
     int x;
     std::cout << "Input your month number: ";
     std::cin >> x;
-
-    switch (x){
+    int output = 30;
+    switch (x) {
         case 1:
-        std::cout << "31";
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+        output = 31;
         break;
         case 2:
-        std::cout << "28";
-        break;
-        case 3:
-        std::cout << "31";
-        break;
-        case 4:
-        std::cout << "30";
-        break;
-        case 5:
-        std::cout << "31";
-        break;
-        case 6:
-        std::cout << "30";
-        break;
-        case 7:
-        std::cout << "31";
-        break;
-        case 8:
-        std::cout << "31";
-        break;
-        case 9:
-        std::cout << "30";
-        break;
-        case 10:
-        std::cout << "31";
-        break;
-        case 11:
-        std::cout << "30";
-        break;
-        case 12:
-        std::cout << "31";
+        output = 28; 
         break;
 
     }
+    // if (x==2) {
+    //     output = 28;
+    // }
+    // switch ((x%7)%2){
+    //     case 0:
+    //     output = 30;
+    //     break;
+    //     case 1:
+    //     output = 31;
+    //     break;
+
+    // }
     if (x>12 or x<0) { std::cout << "Not a month"; }
-    std::cout << std::endl;
+    std::cout << output << " days " << std::endl;
     return 0; 
 }
 
