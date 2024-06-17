@@ -213,6 +213,50 @@ int problem14() {
     return 0;
 }
 
+int problem15 () {
+    int x;
+    std::cout << "Input grade: ";
+    std::cin >> x;
+
+    std::string grade = "F";
+
+    // if (x > 90) {
+    //     grade = "A";
+    // }
+    // else if (x > 80) {
+    //     grade = "B";
+    // }
+    // else if (x > 70) {
+    //     grade = "C";
+    // }
+    // else if (x > 60) {
+    //     grade = "D";
+    // }
+    // else {
+    //     grade = "F";
+    // }
+
+    switch (x/10) {
+        case 10:
+        case 9:
+        grade = "A";
+        break;
+        case 8:
+        grade = "B";
+        break;
+        case 7:
+        grade = "C";
+        break;
+        case 6:
+        grade = "D";
+        break;
+    }
+
+    std::cout << grade << std::endl;
+    return 0;
+
+}
+
 int main() {
     while (true) {
         int x;
@@ -247,6 +291,9 @@ int main() {
             break;
             case 14:
             problem14();
+            break;
+            case 15:
+            problem15();
             break;
 
         }
