@@ -3,11 +3,20 @@
 #include "problems.h"
 using namespace std;
 
-int main() {
-    utilityFunctions u;
-    arrays2 a;
-    std::vector<int> nums = u.getNumsVec(5);
-    a.problem1(nums);
 
+
+void executeProblem1(){
+    arrays2 a;
+    std::vector<int> nums = getNumsVec(5);
+    a.problem1(nums);
+}
+
+void executeProblem2(){
+    arrays2 a;
+    a.problem2(getSquareIntMat(5));
+
+}
+int main() {
+    executeProblem2();
     return 0;
 }
