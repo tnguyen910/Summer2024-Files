@@ -8,10 +8,10 @@
 class utilityFunctions {
     public:
     int impl(std::string test);
+    std::vector<int> getNumsVec(int n);
+
+
 };
 
-class problems {
-
-};
 
 #endif
