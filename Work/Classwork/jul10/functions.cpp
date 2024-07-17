@@ -25,7 +25,7 @@ void fillNumsArray10(int arr[10], std::string prompt){
 }
 
 int problem5(int arr[10]) {
-    
+
     int max = arr[0];
     int sum = arr[0];
     for (int i = 1; i < 10; i++) {
@@ -44,16 +44,16 @@ void problem3(int arr[10]) {
     for (int i = 0; i < 10; i+=2 ) {
         if (arr[i] >= arr[i+1]) {
             out[i] = arr[i+1];
-            out[i+1] == arr[i];
+            out[i+1] = arr[i];
         }
         else {
             out[i] = arr[i];
-            out[i+1] == arr[i+1];
+            out[i+1] = arr[i+1];
         }
     }
 
     std::cout << out[1];
-    
+
 }
 
 int secondLargest(int arr[10]) {
@@ -83,8 +83,8 @@ bool sameElements(std::vector<int> arr1, std::vector<int> arr2, std::string prom
     for (int i = 0; i<arr1.size(); i++) {
         for (int j = 0; j<arr2.size(); j++) {
             if (arr1[i] == arr2[j]) {
-                arr2.erase(arr2.begin()+j); // if this is an array and not a vector, 
-                break; 
+                arr2.erase(arr2.begin()+j); // if this is an array and not a vector,
+                break;
             }
         }
     }
@@ -99,7 +99,7 @@ bool sameElementsNoErase(std::vector<int> arr1, std::vector<int> arr2, std::stri
         for (int j = 0; j<arr2.size(); j++) {
             if (arr1[i] == arr2[j]) {
                 hasElement = true;
-                break; 
+                break;
             }
         }
         if (!hasElement) {
