@@ -30,52 +30,57 @@ std::string chess::getSymbolStr(char ch, bool useSymbol){
         return a;
     }
     switch (ch) {
-        case 'P':
-        return "\u265F";
-        break;
 
-        case 'R':
-        return "\u265C";
-        break;
-
-        case 'B':
-        return "\u265D";
-        break;
-
-        case 'N':
-        return "\u265A";
-        break;
-
-        case 'K':
-        return "\u265A";
-        break;
-
-        case 'Q':
-        return "\u265B";
+        case '_':
+        return "_";
         break;
 
         case 'p':
-        return "\u2659";
+        return "\u265F";
         break;
 
         case 'r':
-        return "\u2656";
+        return "\u265C";
         break;
 
         case 'b':
-        return "\u2657";
+        return "\u265D";
         break;
 
         case 'n':
-        return "\u2658";
+        return "\u265A";
         break;
 
         case 'k':
-        return "\u2651";
+        return "\u265A";
         break;
 
         case 'q':
-        return "\u2652";
+        return "\u265B";
+        break;
+
+        case 'P':
+        return "\u2659";
+        break;
+
+        case 'R':
+        return "\u2656";
+        break;
+
+        case 'B':
+        return "\u2657";
+        break;
+
+        case 'N':
+        return "\u2658";
+        break;
+
+        case 'K':
+        return "\u2655";
+        break;
+
+        case 'Q':
+        return "\u2654";
         break;
 
         default:
