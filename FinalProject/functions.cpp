@@ -1,23 +1,24 @@
 #include <iostream>
 #include "functions.h"
 
-void chess::initializeBoard(char (&board)[8][8]){
+void chess::initializeBoard(){
+
     //fill pieces
     char row1[8] =  { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R' };
 
     for (int i = 0; i<8; i++){
         //fill black pieces
-        board[0][i] = row1[7-i];
+        Board[0][i] = row1[7-i];
 
         // fill white pieces
-        board[7][i] = row1[i]+32;
+        Board[7][i] = row1[i]+32;
 
         //fill pawns
-        board[1][i] = 'P';
-        board[6][i] = 'P'+32;
+        Board[1][i] = 'P';
+        Board[6][i] = 'P'+32;
 
         for (int j = 2; j<6; j++) {
-            board[j][i] = '_';
+            Board[j][i] = '_';
         }
     }
     return;
@@ -87,12 +88,12 @@ std::string chess::getSymbolStr(char ch, bool useSymbol){
         return "_";
     }
 }
-void chess::printBoard(char (&board)[8][8], bool useSymbol){
+void chess::printBoard(bool useSymbol){
     for (int i = 0; i<8; i++){
         char rowLetter = 'h'-i;
         std::cout << rowLetter << "   ";
         for (int j = 0; j<8; j++){
-            std::string symbol = getSymbolStr(board[i][j], UseSymbols);
+            std::string symbol = getSymbolStr(Board[i][j], UseSymbols);
             std::cout << symbol << " ";
         }
         std::cout << std::endl;
@@ -103,6 +104,7 @@ void chess::printBoard(char (&board)[8][8], bool useSymbol){
     for (int i = 0; i<8; i++){
         std::cout << i+1 << " ";
     }
+    std::cout << std::endl << std::endl;
 }
 
 bool chess::setUseSymbols(bool b)  {

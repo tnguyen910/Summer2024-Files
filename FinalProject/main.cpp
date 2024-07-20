@@ -27,14 +27,20 @@ int main() {
     }
 
     char board[8][8];
-    chess chess(symbols, board);
+    chess chess(symbols);
 
 
-    chess.initializeBoard(board);
+    chess.initializeBoard();
 
     while(true){
-        chess.printBoard(board);
+        chess.printBoard();
+        int x;
+        std::cin >> x;
+        if (x == 0){
+            break;
+        }
     }
 
+    std::cout << "thanks for playing!";
     return 0;
 }
