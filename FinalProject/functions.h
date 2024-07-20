@@ -13,7 +13,7 @@ class chess{
     bool UseSymbols;
 
     public:
-    void Chess(bool useSymbols);
+    chess (bool useSymbols = true) : UseSymbols(useSymbols){}
     void initializeBoard(char (&board)[8][8]);
 
     void printBoard(char (&board)[8][8]);

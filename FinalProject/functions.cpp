@@ -1,10 +1,6 @@
 #include <iostream>
 #include "functions.h"
 
-void chess::Chess(bool useSymbol){
-    UseSymbols = useSymbol;
-}
-
 void chess::initializeBoard(char (&board)[8][8]){
     //fill pieces
     char row1[8] =  { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R' };
@@ -28,7 +24,7 @@ void chess::initializeBoard(char (&board)[8][8]){
 }
 
 std::string chess::getSymbolStr(char ch, bool useSymbol){
-    if (useSymbol) {
+    if (!useSymbol) {
         std::string a = "";
         a += ch;
         return a;
