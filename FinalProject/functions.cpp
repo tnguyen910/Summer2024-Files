@@ -1,6 +1,10 @@
 #include <iostream>
 #include "functions.h"
 
+void chess::Chess(bool useSymbol){
+    UseSymbols = useSymbol;
+}
+
 void chess::initializeBoard(char (&board)[8][8]){
     //fill pieces
     char row1[8] =  { 'R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R' };
@@ -23,7 +27,12 @@ void chess::initializeBoard(char (&board)[8][8]){
     return;
 }
 
-std::string getSymbol(char ch){
+std::string chess::getSymbolStr(char ch, bool useSymbol){
+    if (useSymbol) {
+        std::string a = "";
+        a += ch;
+        return a;
+    }
     switch (ch) {
         case 'P':
         return "\u265F";
@@ -78,12 +87,11 @@ std::string getSymbol(char ch){
     }
 }
 void chess::printBoard(char (&board)[8][8], bool useSymbol){
-    bool useSymbol = UseSymbol;
     for (int i = 0; i<8; i++){
         char rowLetter = 'h'-i;
         std::cout << rowLetter << "   ";
         for (int j = 0; j<8; j++){
-            std::string symbol = (UseSymbol) ? getSymbol(board[i][j]) : board[i][j];
+            std::string symbol = getSymbolStr(board[i][j], UseSymbols);
             std::cout << symbol << " ";
         }
         std::cout << std::endl;
@@ -94,4 +102,9 @@ void chess::printBoard(char (&board)[8][8], bool useSymbol){
     for (int i = 0; i<8; i++){
         std::cout << i+1 << " ";
     }
+}
+
+bool chess::setUseSymbols(bool b)  {
+    UseSymbols = b;
+    return b;
 }
