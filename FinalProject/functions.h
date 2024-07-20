@@ -7,7 +7,20 @@
 
 //Add Functions
 
-std::vector< std::vector<char> > initializeBoard();
+class chess{
+
+    private:
+    bool UseSymbols;
+
+    public:
+    void initializeBoard(char (&board)[8][8]);
+    void printBoard(char (&board)[8][8]);
+
+
+    bool setUseSymbols(bool b);
+
+    bool getUseSymbols() const {return UseSymbols;}
+};
 
 
 #endif
