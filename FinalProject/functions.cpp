@@ -13,7 +13,7 @@ void chess::initializeBoard(char (&board)[8][8]){
         board[7][i] = row1[i]+32;
 
         //fill pawns
-        board[1][i] = 'P'+32;
+        board[1][i] = 'P';
         board[6][i] = 'P'+32;
 
         for (int j = 2; j<6; j++) {
