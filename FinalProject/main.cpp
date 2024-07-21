@@ -31,15 +31,12 @@ int main() {
 
 
     chess.initializeBoard();
+    chess.printBoard();
 
-    while(true){
+    do {
+        chess.executeTurn();
         chess.printBoard();
-        int x;
-        std::cin >> x;
-        if (x == 0){
-            break;
-        }
-    }
+    } while(true);
 
     std::cout << "thanks for playing!";
     return 0;
