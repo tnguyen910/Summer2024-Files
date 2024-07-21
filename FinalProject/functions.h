@@ -41,7 +41,8 @@ class chess{
 
         void initializeBoard();
 
-        void executeTurn();
+        bool settings();
+        bool executeTurn();
         void movePieces(std::string str);
         bool setPiece(pieceInstance &piece);
         bool validSlot(pieceInstance &piece);

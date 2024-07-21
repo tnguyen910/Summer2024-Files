@@ -8,15 +8,15 @@ int main() {
 
     bool symbols = true;
     while (true){
-        char symbolsIn;
-        std::cin >> symbolsIn;
+        std::string symbolsIn;
+        getline(std::cin, symbolsIn);
 
-        if (symbolsIn == 'Y') {
+        if (symbolsIn == "Y") {
             symbols = true;
             break;
         }
 
-        else if (symbolsIn == 'N') {
+        else if (symbolsIn == "N") {
             symbols = false;
             break;
         }
@@ -33,10 +33,13 @@ int main() {
     chess.initializeBoard();
     chess.printBoard();
 
-    do {
-        chess.executeTurn();
+    while (true){      
+        bool end = chess.executeTurn();
+        if (end){
+            break;
+        }
         chess.printBoard();
-    } while(true);
+    }
 
     std::cout << "thanks for playing!";
     return 0;

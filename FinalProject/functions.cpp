@@ -91,8 +91,7 @@ std::string chess::getSymbolStr(char ch, bool useSymbol){
 }
 void chess::printBoard(bool useSymbol){
     for (int i = 0; i<8; i++){
-        char rowLetter = 'h'-i;
-        std::cout << rowLetter << "   ";
+        std::cout << 8-i << "   ";
         for (int j = 0; j<8; j++){
             std::string symbol = getSymbolStr(Board[i][j], UseSymbols);
             std::cout << symbol << " ";
@@ -103,7 +102,8 @@ void chess::printBoard(bool useSymbol){
 
     std::cout << "    ";
     for (int i = 0; i<8; i++){
-        std::cout << i+1 << " ";
+        char colLetter = i+'a';
+        std::cout << colLetter << " ";
     }
     std::cout << std::endl << std::endl;
 }
@@ -126,23 +126,33 @@ bool validatePosition(std::string str) {
 pieceType getPieceFromChar(char ch){
     switch (ch) {
         case 'R':
+        case 'r':
         return Rook;
         break;
 
         case 'B':
+        case 'b':
         return Bishop;
         break;
 
         case 'N':
+        case 'n':
         return Knight;
         break;
 
         case 'K':
+        case 'k':
         return King;
         break;
 
         case 'Q':
+        case 'q':
         return Queen;
+        break;
+
+        case 'P':
+        case 'p':
+        return Pawn;
         break;
 
         default:
@@ -182,8 +192,8 @@ char getCharFromPiece(pieceInstance piece){
         ch = '_';
         break;
     }
-    if (piece.IsWhite == false){
-        ch = toupper(ch);
+    if (piece.IsWhite){
+        ch = tolower(ch);
     }
     return ch;
 }
@@ -204,13 +214,13 @@ pieceInstance chess::parsePieceString(std::string str){
         }
 
         //Handle original position
-        if (piece.Type == Pawn) {
+        if (piece.Type != Pawn) {
             str = str.substr(1,str.length()-1);
         }
 
         if (str[0] >= 'a' && str[0] <= 'h' && str[1] >= '1' && str[1] <= '8') {
-            piece.FirstPos.first = 'h' - str[0];
-            piece.FirstPos.second = str[1] - 1;
+            piece.FirstPos.first = '8' - str[1] ;
+            piece.FirstPos.second = str[0] - 'a';
         } else{
             throw ("Invalid first location");
         }
@@ -235,8 +245,8 @@ pieceInstance chess::parsePieceString(std::string str){
 
 
         if (str[length-2] >= 'a' && str[length-2] <= 'h' && str[length-1] >= '1' && str[length-1] <= '8') { //set new position
-            piece.NewPos.first = 'h' - str[length-2];
-            piece.NewPos.second = str[length-1] - 1;
+            piece.NewPos.first = '8' - str[length-1];
+            piece.NewPos.second = str[length-2] - 'a';
         } else{
             throw ("Invalid notation.");
         }
@@ -246,9 +256,9 @@ pieceInstance chess::parsePieceString(std::string str){
                 piece.Type = Error;
             }
 
-    } catch (std::string err) {
+    } catch (char const* err) {
         piece.Type = Error;
-        std::cout << "Error on '" << str <<"': " << err;
+        std::cout << "Error on '" << str <<"': " << err << std::endl;
         return piece;
     }
 
@@ -283,6 +293,18 @@ bool chess::setPiece(pieceInstance &piece) {
 // does not implement en passant or prevent checks
 bool chess::validatePawnMove(pieceInstance &piece) {
 
+
+    char boardPiece = Board[piece.FirstPos.first][piece.FirstPos.second];
+    if( boardPiece >= 'A' && boardPiece <= 'Z'){
+        piece.IsWhite = false;
+    }
+;
+    pieceType test = getPieceFromChar(boardPiece);
+    if( getPieceFromChar(boardPiece) != Pawn){
+        return false;
+    }
+
+
     int pawnRow = (piece.IsWhite) ? 6 : 1;
     int rowOffset = (piece.IsWhite) ? -1: 1;
 
@@ -301,7 +323,7 @@ bool chess::validatePawnMove(pieceInstance &piece) {
             return false;
         }
     } else if (piece.Capturing){
-        if (Board[piece.NewPos.first][piece.NewPos.second] <= opp && Board[piece.NewPos.first][piece.NewPos.second] >= opp+25 ){ // if NewPos is not occupied by an opposing piece, return false
+        if ((Board[piece.NewPos.first][piece.NewPos.second] <= opp && Board[piece.NewPos.first][piece.NewPos.second] >= opp+25 ) || Board[piece.NewPos.first][piece.NewPos.second] == '_'){ // if NewPos is not occupied by an opposing piece, return false
             return false;
         }
 
@@ -327,35 +349,65 @@ bool chess::validateMove(pieceInstance &piece) {
 }
 
 void chess::movePieces(std::string str) {
-    str+= ' ';
+    str += ' ';
     int substrStart = 0;
     for (int i = 0; i<str.size(); i++){
         if (str[i] == ' ') {
-            std::string move = str.substr(substrStart, i);
+
+            // "b5d5 d5e5 "
+            std::string move = str.substr(substrStart, i-substrStart);
             pieceInstance currentPiece = parsePieceString(move);
-            std::cout << move;
+            std::cout << move << std::endl;
             if (currentPiece.Type == Error) {
                 break;
             }
-            if (!setPiece(currentPiece)){ // executes the board reshuffle if the piece move is valid, if not, breaks loop
-                std::cout << "Error on '" << move <<"': Invalid position to move to.";
-                break;
-            }
+            setPiece(currentPiece);
+            substrStart = i+1;
         }
     }
 
 }
 
 
-void chess::executeTurn(){
-    std::cout << "Input next move using chess algebraic notation (input !help for help with settings): ";
+bool chess::executeTurn(){
+
+    std::cout << "Input next move using chess algebraic notation (!settings): ";
     std::string str;
     getline(std::cin, str);
-
-    if (str == "settings") {
-
+        
+    if (str == "!settings") {
+        bool end = settings();
+        if (end){
+            return true;
+        }
     }
     else {
         movePieces(str);
     }
+    return false;
+}
+
+bool chess::settings () {
+    std::cout << "=====  Settings Menu  =====" << std::endl; 
+    std::cout << "0. End  " << std::endl;
+    std::cout << "1. Toggle Symbols" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Input Argument: ";
+    int arg;
+    std::cin >> arg;
+    std::cin.ignore();
+
+    switch (arg) {
+        case 0:
+            return true;
+            break;
+        case 1:
+            UseSymbols = (UseSymbols) ? false : true; 
+            break;
+        default:
+            std::cout << "Invalid";
+            break;
+    }
+    return false;
+
 }
