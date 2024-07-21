@@ -32,11 +32,13 @@ class chess{
         bool UseSymbols;
         char Board[8][8];
         bool VerifyValidity;
+        bool IsWhiteTurn;
 
     public:
         chess (bool useSymbols = true, bool verify = true) {
             VerifyValidity = verify;
             UseSymbols = useSymbols;
+            IsWhiteTurn = false;
         }
 
         void initializeBoard();
@@ -52,12 +54,11 @@ class chess{
         char getCharFromPiece(pieceInstance piece);
 
         //check to see if a peice that can potentially capture exists, and set it. return false if not
-        bool possibleCapture(pieceInstance &piece);
-        bool possibleCaptureByPawn(pieceInstance &piece);
+        bool possibleInferedMove(pieceInstance &piece);
+        bool inferPawn(pieceInstance &piece);
 
         //composite function to validate moves
         bool validateMove(pieceInstance &piece);
-
         bool validatePawnMove(pieceInstance &piece);
 
 

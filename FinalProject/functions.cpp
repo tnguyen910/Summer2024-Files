@@ -202,12 +202,16 @@ pieceInstance chess::parsePieceString(std::string str){
     pieceInstance piece;
     try {
 
-        if (str.size() < 4) { //Validate Min Size
+        if (str.size() < 3) { //Validate Min Size
             throw ("Invalid Input");
         }
 
+        // EX: Ng1xf3 -> continue
+
         int i = 0;
         piece.Type = (str[0] >= 'A'  && str[0] <= 'Z') ? getPieceFromChar(str[0]) : Pawn;
+
+        // Ex: Ng1xf3 -> piece.Type = Knight;
 
         if (piece.Type == Error){
             throw ("Invalid piece type");
@@ -217,48 +221,57 @@ pieceInstance chess::parsePieceString(std::string str){
         if (piece.Type != Pawn) {
             str = str.substr(1,str.length()-1);
         }
+        // Ex: Ng1xf3 -> changes to g1xf3
 
-        if (str[0] >= 'a' && str[0] <= 'h' && str[1] >= '1' && str[1] <= '8') {
-            piece.FirstPos.first = '8' - str[1] ;
-            piece.FirstPos.second = str[0] - 'a';
-        // } else if (str[0] >= 'a' && str[0] <= 'h' && str[1] == 'x') {
-        //     if (!validCapture) { // sets new first position if valid capture, return false and throw if not
-        //         throw ("Invalid move.");
-        //     }
-        } else{
-            throw ("Invalid first location");
-        }
-
-        int length;
-
-        if(str[2] == 'x'){ //Check for capture and validate length
-            piece.Capturing = true;
-            if (str.length()==5){
-                length = 5;
-            } else{
-                throw ("Invalid notation");
-            }
-        } else {
-            if (str.length()==4){
-                length = 4;
-            } else{
-                throw ("Invalid notation");
-            }
-        }
-
-
-
+        int length = str.length();
         if (str[length-2] >= 'a' && str[length-2] <= 'h' && str[length-1] >= '1' && str[length-1] <= '8') { //set new position
             piece.NewPos.first = '8' - str[length-1];
             piece.NewPos.second = str[length-2] - 'a';
+            str = str.substr(0, length-2);
+            length = str.length();
         } else{
             throw ("Invalid notation.");
+        }
+
+        // Ex: g1xf3 -> Newpos = (row: 6, column 0)
+        // g1xf3 changes to g1x
+
+        if (length > 2 && str[length-3] == 'x'){ // mark if there is an "x" symbolizing a take, remove x
+            piece.Capturing = true;
+            str.erase(str.end()-3);
+        } else {
+            throw ("Invalid notation.");
+        }
+        // Ex: g1x -> changes to g1, capturing -> true
+        if(length == 2){
+            if (str[0] >= 'a' && str[0] <= 'h' && str[1] >= '1' && str[1] <= '8') {
+                piece.FirstPos.first = '8' - str[1] ;
+                piece.FirstPos.second = str[0] - 'a';
+            } else {
+                throw("Invalid notation. ");
+            }
+        } else if (length ==1) {
+            if (str[0] >= 'a' && str[0] <= 'h') {
+                piece.FirstPos.second = str[0] - 'a';
+            } else {
+                throw("Invalid notation. ");
+            }
+
+            if(!possibleInferedMove(piece)){
+                throw("Invalid move.");
+            }
+        } else if (length == 0) {
+            if(!possibleInferedMove(piece)){
+                throw("Invalid move.");
+            }
+        } else {
+            throw("Invalid notation.");
         }
 
         if(!validateMove(piece)){
             throw("Invalid move.");
                 piece.Type = Error;
-            }
+        }
 
     } catch (char const* err) {
         piece.Type = Error;
