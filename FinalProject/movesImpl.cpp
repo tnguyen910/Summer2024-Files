@@ -82,6 +82,7 @@ bool chess::possibleInferedMove(pieceInstance &piece) {
                break;
 
           default:
+               std::cout << std::endl << "Move not implemented yet!" << std::endl << std::endl;
                return false;
                break;
   }
@@ -92,6 +93,7 @@ bool chess::inferPawn(pieceInstance &piece) {
      int offset = (IsWhiteTurn) ? 1 : -1;
      char ch = (IsWhiteTurn) ? 'p' : 'P';
      int pawnRow = (IsWhiteTurn) ? 6 : 1;
+     char chdebug = Board[piece.NewPos.first+offset*2][piece.NewPos.second];
 
      // handle case where column is known:
      if (piece.FirstPos.second != -1) {
@@ -134,7 +136,7 @@ bool chess::inferPawn(pieceInstance &piece) {
                     return false;
                }
           } else if (!piece.Capturing) {
-               if(Board[piece.NewPos.first+offset*2][piece.NewPos.second] == ch && piece.NewPos.first+offset==pawnRow) {
+               if(Board[piece.NewPos.first+offset*2][piece.NewPos.second] == ch && piece.NewPos.first+offset*2==pawnRow) {
                     piece.FirstPos.first = piece.NewPos.first+offset*2;
                     piece.FirstPos.second = piece.NewPos.second;
                     return true;

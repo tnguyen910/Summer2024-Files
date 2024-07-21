@@ -38,7 +38,7 @@ class chess{
         chess (bool useSymbols = true, bool verify = true) {
             VerifyValidity = verify;
             UseSymbols = useSymbols;
-            IsWhiteTurn = false;
+            IsWhiteTurn = true;
         }
 
         void initializeBoard();

@@ -50,7 +50,7 @@ std::string chess::getSymbolStr(char ch, bool useSymbol){
         break;
 
         case 'n':
-        return "\u265A";
+        return "\u265E";
         break;
 
         case 'k':
@@ -201,8 +201,8 @@ char chess::getCharFromPiece(pieceInstance piece){
 pieceInstance chess::parsePieceString(std::string str){
     pieceInstance piece;
     try {
-
-        if (str.size() < 3) { //Validate Min Size
+        int size = str.size();
+        if (str.size() < 2 || str.size() >5) { //Validate Min Size
             throw ("Invalid Input");
         }
 
@@ -236,10 +236,11 @@ pieceInstance chess::parsePieceString(std::string str){
         // Ex: g1xf3 -> Newpos = (row: 6, column 0)
         // g1xf3 changes to g1x
 
-        if (length > 2 && str[length-3] == 'x'){ // mark if there is an "x" symbolizing a take, remove x
+        if (str[length-1] == 'x'){ // mark if there is an "x" symbolizing a take, remove x
             piece.Capturing = true;
-            str.erase(str.end()-3);
-        } else {
+            str.erase(str.end()-1);
+            length = str.length();
+        } else if (length > 2) {
             throw ("Invalid notation.");
         }
         // Ex: g1x -> changes to g1, capturing -> true
@@ -320,6 +321,7 @@ void chess::movePieces(std::string str) {
                 break;
             }
             setPiece(currentPiece);
+            IsWhiteTurn = (IsWhiteTurn) ? false : true;
             substrStart = i+1;
         }
     }
