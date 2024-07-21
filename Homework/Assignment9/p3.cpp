@@ -1,5 +1,7 @@
 #include <iostream>
+
 using namespace std;
+
 
 int main() {
     int n;
@@ -21,3 +23,4 @@ int main() {
         cout << endl;
 
     }
+}

@@ -1,7 +1,7 @@
 @echo off
 
 :: Compile the source files
-g++ main.cpp functions.cpp -o main.exe
+g++ main.cpp functions.cpp movesImpl.cpp -o main.exe
 
 :: Run the executable
 main.exe

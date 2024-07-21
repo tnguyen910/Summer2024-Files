@@ -49,16 +49,20 @@ class chess{
 
         // parses string to convert to a pieceInstance for move.
         pieceInstance parsePieceString(std::string str);
+        char getCharFromPiece(pieceInstance piece);
 
+        //check to see if a peice that can potentially capture exists, and set it. return false if not
+        bool possibleCapture(pieceInstance &piece);
+        bool possibleCaptureByPawn(pieceInstance &piece);
 
         //composite function to validate moves
         bool validateMove(pieceInstance &piece);
 
-        // validate pawn move
         bool validatePawnMove(pieceInstance &piece);
 
 
 
+        pieceType getPieceFromChar(char ch);
 
         void printBoard();
         void printBoard(bool useSymbol);
