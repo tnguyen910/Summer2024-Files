@@ -33,6 +33,8 @@ class chess{
         char Board[8][8];
         bool VerifyValidity;
         bool IsWhiteTurn;
+        int CurrentMove = 1;
+        std::vector<std::string> Moves;
 
     public:
         chess (bool useSymbols = true, bool verify = true) {
@@ -41,7 +43,10 @@ class chess{
             IsWhiteTurn = true;
         }
 
+
         void initializeBoard();
+        std::string getCurrentTurn();
+        void printAllMoves();
 
         bool settings();
         bool executeTurn();

@@ -1,5 +1,6 @@
 #include <cctype>
 #include <iostream>
+#include <ostream>
 #include "functions.h"
 
 void chess::initializeBoard(){
@@ -23,6 +24,14 @@ void chess::initializeBoard(){
         }
     }
     return;
+}
+
+std::string chess::getCurrentTurn() {
+     if (IsWhiteTurn) {
+          return "White";
+     } else{
+          return "Black";
+     }
 }
 
 std::string chess::getSymbolStr(char ch, bool useSymbol){
@@ -199,6 +208,7 @@ char chess::getCharFromPiece(pieceInstance piece){
 }
 
 pieceInstance chess::parsePieceString(std::string str){
+     std::string original = str;
     pieceInstance piece;
     try {
         int size = str.size();
@@ -276,7 +286,7 @@ pieceInstance chess::parsePieceString(std::string str){
 
     } catch (char const* err) {
         piece.Type = Error;
-        std::cout << "Error on '" << str <<"': " << err << std::endl;
+        std::cout << "Error on '" << original <<"': " << err << std::endl;
         return piece;
     }
 
@@ -316,10 +326,13 @@ void chess::movePieces(std::string str) {
             // "b5d5 d5e5 "
             std::string move = str.substr(substrStart, i-substrStart);
             pieceInstance currentPiece = parsePieceString(move);
-            std::cout << move << std::endl;
             if (currentPiece.Type == Error) {
                 break;
             }
+
+            std::cout <<CurrentMove << ". "<< move << std::endl;
+            CurrentMove++;
+            Moves.push_back(move);
             setPiece(currentPiece);
             IsWhiteTurn = (IsWhiteTurn) ? false : true;
             substrStart = i+1;
@@ -330,27 +343,58 @@ void chess::movePieces(std::string str) {
 
 
 bool chess::executeTurn(){
+     start:
+     std::cout << "Input next move using chess algebraic notation (!settings): ";
+     std::string str;
+     getline(std::cin, str);
 
-    std::cout << "Input next move using chess algebraic notation (!settings): ";
-    std::string str;
-    getline(std::cin, str);
+     for (int i = 0; i<20; i++){
+          std::cout << std::endl;
+     }
+
+     std::cout << "======= Chess =======" << std::endl << std::endl;
+
 
     if (str == "!settings") {
         bool end = settings();
         if (end){
             return true;
         }
+        std::cout << std::endl;
+        for (int i = 0; i<20; i++){
+               std::cout << std::endl;
+          }
+        std::cout << "======= Chess =======" << std::endl << std::endl;
+        printBoard();
+        std::cout << "Next to Move: " << getCurrentTurn() << std::endl ;
+        goto start;
     }
     else {
         movePieces(str);
+        std::cout << std::endl;
+        std::cout << "======= Chess =======" << std::endl << std::endl;
     }
     return false;
+}
+
+void chess::printAllMoves(){
+     std::cout << "===== All Previous Moves =====" << std::endl;
+     for (int i = 0; i < Moves.size(); i++){
+          std::cout << i+1 << ". " << Moves[i] << std::endl;
+     }
+     std::cout << "==============================" << std::endl;
+
+     std::cout << "Press Enter to Continue";
+     std::string x;
+     getline(std::cin, x);
 }
 
 bool chess::settings () {
     std::cout << "=====  Settings Menu  =====" << std::endl;
     std::cout << "0. End  " << std::endl;
     std::cout << "1. Toggle Symbols" << std::endl;
+    std::cout << "2. Show all previous moves." << std::endl;
+    std::cout << "===========================" << std::endl;
     std::cout << std::endl;
     std::cout << "Input Argument: ";
     int arg;
@@ -358,15 +402,18 @@ bool chess::settings () {
     std::cin.ignore();
 
     switch (arg) {
-        case 0:
-            return true;
-            break;
-        case 1:
-            UseSymbols = (UseSymbols) ? false : true;
-            break;
-        default:
-            std::cout << "Invalid";
-            break;
+     case 0:
+          return true;
+          break;
+     case 1:
+          UseSymbols = (UseSymbols) ? false : true;
+          break;
+     case 2:
+          printAllMoves();
+          break;
+     default:
+          std::cout << "Invalid";
+          break;
     }
     return false;
 
