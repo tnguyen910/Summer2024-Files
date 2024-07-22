@@ -36,9 +36,7 @@ bool chess::validatePawnMove(pieceInstance &piece) {
   char opp = (piece.IsWhite) ? 'A' : 'a';
 
   if (!piece.Capturing) {
-    if (Board[piece.NewPos.first][piece.NewPos.second] >= opp &&
-        Board[piece.NewPos.first][piece.NewPos.second] <=
-            opp + 25) { // if the spot is occupied by an opposite side, return
+    if (Board[piece.NewPos.first][piece.NewPos.second] != '_') { // if the spot is occupied by an opposite side, return
                         // false
       return false;
     }
@@ -74,7 +72,28 @@ bool chess::validatePawnMove(pieceInstance &piece) {
 
 bool chess::validateKnightMove(pieceInstance &piece){
 
-    char boardPiece = Board[piece.NewPos.first][piece.NewPos.second];
+    char currentSlot = Board[piece.FirstPos.first][piece.FirstPos.second];
+    char newSlot = Board[piece.NewPos.first][piece.NewPos.second];
+    if (currentSlot >= 'A' && currentSlot <= 'Z') {
+        piece.IsWhite = false;
+    }
+
+    if (getPieceFromChar(currentSlot) != Knight) {
+      return false;
+    }
+
+    char opp = (piece.IsWhite) ? 'A' : 'a';
+
+    if(!piece.Capturing){
+        if (newSlot >= opp && newSlot <= opp+25) { // return false if the piece is occupied by the oppsoite side
+            return false;
+        }
+
+
+    }
+
+
+
     return false;
 }
 
