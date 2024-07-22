@@ -1,4 +1,4 @@
-#include "functions.h"
+#include "functions.hpp"
 #include <iostream>
 
 bool chess::validateMove(pieceInstance &piece) {
@@ -71,6 +71,13 @@ bool chess::validatePawnMove(pieceInstance &piece) {
   }
   return false;
 }
+
+bool chess::validateKnightMove(pieceInstance &piece){
+
+    char boardPiece = Board[piece.NewPos.first][piece.NewPos.second];
+    return false;
+}
+
 
 // inference for ambiguous pieces
 

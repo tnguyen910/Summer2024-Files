@@ -1,7 +1,7 @@
 #include <cctype>
 #include <iostream>
 #include <ostream>
-#include "functions.h"
+#include "functions.hpp"
 
 void chess::initializeBoard(){
 

@@ -1,6 +1,6 @@
 #ifndef PROBLEMS_H
 #define PROBLEMS_H
-#include "interface.h"
+#include "interface.hpp"
 #include <iostream>
 #include <vector>
 #include <string>

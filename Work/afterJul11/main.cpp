@@ -1,5 +1,5 @@
-#include "interface.h"
-#include "problems.h"
+#include "interface.hpp"
+#include "problems.hpp"
 using namespace std;
 
 

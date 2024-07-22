@@ -1,9 +1,10 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
 #include <cstdio>
 #include <iostream>
 #include <vector>
 #include <string>
+#include <utility>
 
 //Add Functions
 
@@ -51,8 +52,7 @@ class chess{
         bool settings();
         bool executeTurn();
         void movePieces(std::string str);
-        bool setPiece(pieceInstance &piece);
-        void validSlot(pieceInstance &piece);
+        void setPiece(pieceInstance &piece);
 
         // parses string to convert to a pieceInstance for move.
         pieceInstance parsePieceString(std::string str);
@@ -61,10 +61,12 @@ class chess{
         //check to see if a peice that can potentially capture exists, and set it. return false if not
         bool possibleInferedMove(pieceInstance &piece);
         bool inferPawn(pieceInstance &piece);
+        bool inferKnight(pieceInstance &piece);
 
         //composite function to validate moves
         bool validateMove(pieceInstance &piece);
         bool validatePawnMove(pieceInstance &piece);
+        bool validateKnightMove(pieceInstance &piece);
 
 
 
