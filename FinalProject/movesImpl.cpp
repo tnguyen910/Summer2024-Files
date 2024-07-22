@@ -8,7 +8,10 @@ bool chess::validateMove(pieceInstance &piece) {
 
   switch (piece.Type) {
   case Pawn:
-    return validatePawnMove(piece);
+    return (validatePawnMove(piece) && (piece.IsWhite == IsWhiteTurn));
+    break;
+  case Knight:
+    return (validateKnightMove(piece) && (piece.IsWhite == IsWhiteTurn));
     break;
 
   default:
@@ -36,8 +39,7 @@ bool chess::validatePawnMove(pieceInstance &piece) {
   char opp = (piece.IsWhite) ? 'A' : 'a';
 
   if (!piece.Capturing) {
-    if (Board[piece.NewPos.first][piece.NewPos.second] != '_') { // if the spot is occupied by an opposite side, return
-                        // false
+    if (Board[piece.NewPos.first][piece.NewPos.second] != '_') { // if the spot is not empty, return false
       return false;
     }
 
@@ -85,14 +87,26 @@ bool chess::validateKnightMove(pieceInstance &piece){
     char opp = (piece.IsWhite) ? 'A' : 'a';
 
     if(!piece.Capturing){
-        if (newSlot >= opp && newSlot <= opp+25) { // return false if the piece is occupied by the oppsoite side
+        if (newSlot != '_') { // return false if the piece is occupied by the oppsoite side
             return false;
         }
 
-
+    } else if(piece.Capturing) {
+        if ((Board[piece.NewPos.first][piece.NewPos.second] <= opp &&
+             Board[piece.NewPos.first][piece.NewPos.second] >= opp + 25) ||
+            Board[piece.NewPos.first][piece.NewPos.second] ==
+                '_') { // if NewPos is not occupied by an opposing piece, return
+                       // false
+          return false;
+        }
     }
 
-
+    if(abs(piece.NewPos.first-piece.FirstPos.first) == 2 && abs(piece.NewPos.second-piece.FirstPos.second) ==1){ // check for case where it is up 2 rows over 1 row
+        return true;
+    }
+    if(abs(piece.NewPos.first-piece.FirstPos.first) == 1 && abs(piece.NewPos.second-piece.FirstPos.second) ==2){ // check for cases where it is up 1 row over 2 rows
+        return true;
+    }
 
     return false;
 }
