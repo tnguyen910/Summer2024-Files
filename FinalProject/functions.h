@@ -52,7 +52,7 @@ class chess{
         bool executeTurn();
         void movePieces(std::string str);
         bool setPiece(pieceInstance &piece);
-        bool validSlot(pieceInstance &piece);
+        void validSlot(pieceInstance &piece);
 
         // parses string to convert to a pieceInstance for move.
         pieceInstance parsePieceString(std::string str);

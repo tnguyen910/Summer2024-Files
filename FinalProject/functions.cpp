@@ -294,27 +294,9 @@ pieceInstance chess::parsePieceString(std::string str){
 
 }
 
-bool chess::validSlot(pieceInstance &piece){
-    char ch = Board[piece.NewPos.first][piece.NewPos.second];
-    if (piece.IsWhite && (ch >= 'a' && ch <= 'z')) {
-        return false;
-    }
-    if (!piece.IsWhite && (ch >= 'A' && ch <= 'Z')) {
-        return false;
-    }
-    return true;
-}
-
-
-
-bool chess::setPiece(pieceInstance &piece) {
-    if (validSlot(piece)) {
-        Board[piece.FirstPos.first][piece.FirstPos.second] = '_';
-        Board[piece.NewPos.first][piece.NewPos.second] = getCharFromPiece(piece);
-        return true;
-    }
-    return false;
-
+void chess::setPiece(pieceInstance &piece) {
+    Board[piece.FirstPos.first][piece.FirstPos.second] = '_';
+    Board[piece.NewPos.first][piece.NewPos.second] = getCharFromPiece(piece);
 }
 
 void chess::movePieces(std::string str) {
